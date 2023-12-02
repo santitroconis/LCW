@@ -1,0 +1,30 @@
+package EjemploReflexiones;
+
+import java.lang.reflect.*;
+
+public class App {
+    public static void main(String[] args) throws Exception {
+        Class<?> clase = Alumnos.class;
+        
+        Constructor<?> constructor = clase.getDeclaredConstructor(String.class , String.class, int.class);
+        
+        constructor.setAccessible(true);
+        
+        Object alumno = constructor.newInstance("David" , "Paz" , 6);
+
+        Method[] methods = clase.getDeclaredMethods();
+
+        for (Method method : methods) {
+            try {
+               
+                method.setAccessible(true);
+                //Alumnos alumno = new Alumnos("David" , "Paz" , 6);
+                //Object alumno = clase.getDeclaredConstructor().newInstance();
+                method.invoke(alumno, null);
+                System.out.println("Método ejecutado: " + method.getName());
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
